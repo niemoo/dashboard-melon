@@ -1,7 +1,7 @@
 import { React } from 'react';
 import Tombol from '../../Tombol';
 
-const ControlAutoCard = ({ title, onChangeStartTime, onChangeEndTime }) => {
+const ControlAutoCard = ({ title, onChangeStartTime, onChangeEndTime, onClick, disabled }) => {
   return (
     <>
       <div className={`flex justify-center p-3 mb-5 border border-black rounded-md md:w-1/5 shadow-md bg-white`}>
@@ -20,7 +20,7 @@ const ControlAutoCard = ({ title, onChangeStartTime, onChangeEndTime }) => {
               <input type="time" className="w-fit my-1 rounded-md p-1 border border-black" onChange={onChangeEndTime} />
             </div>
           </div>
-          <Tombol title="SET" className="mt-3 w-24" />
+          <Tombol title="SET" className="mt-3 w-24" onClick={onClick} disabled={disabled} />
         </div>
       </div>
     </>
