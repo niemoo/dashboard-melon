@@ -1,11 +1,31 @@
-import { React, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios'; // Import Axios
 
-const ControlManualCard = ({ title, disabled }) => {
+const ControlManualCard = ({ title, disabled, url }) => {
   const [isChecked, setIsChecked] = useState(false);
 
   // Fungsi untuk menangani perubahan nilai checkbox
-  const handleCheckboxChange = () => {
+  const handleCheckboxChange = async () => {
     setIsChecked(!isChecked);
+
+    // If the checkbox is checked, send a post request with the number 1 to the database
+    if (isChecked == false) {
+      try {
+        const res = await axios.post(url, { state: 1 });
+        // Handle the successful response if needed
+      } catch (error) {
+        // Handle the error if needed
+        console.error('Error sending data to the server', error);
+      }
+    } else {
+      try {
+        const res = await axios.post(url, { state: 0 });
+        // Handle the successful response if needed
+      } catch (error) {
+        // Handle the error if needed
+        console.error('Error sending data to the server', error);
+      }
+    }
   };
 
   return (
