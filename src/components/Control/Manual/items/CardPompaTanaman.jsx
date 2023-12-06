@@ -47,6 +47,43 @@ const CardPompaTanaman = () => {
       checkTime();
     };
 
+    // const initialConnectionOptions = {
+    //   protocol: 'wss',
+    //   host: 'b579eab42dbe4d60a49f09a4f513b74d.s1.eu.hivemq.cloud',
+    //   clientId: 'test',
+    //   port: 8884,
+    //   username: 'bisaa',
+    //   password: 'Yabisadong11',
+    // };
+
+    // const client = mqtt.connect(`${initialConnectionOptions.protocol}://${initialConnectionOptions.host}:${initialConnectionOptions.port}/mqtt`, {
+    //   clientId: initialConnectionOptions.clientId,
+    //   username: initialConnectionOptions.username,
+    //   password: initialConnectionOptions.password,
+    //   clean: true,
+    //   reconnectPeriod: 1000,
+    //   connectTimeout: 30 * 1000,
+    // });
+
+    // // Uncomment the following lines to publish data
+    // const payload = 'Your payload data';
+    // const qos = 0; // Quality of Service
+
+    // client.publish('sensor/ppm', payload, { qos }, (error) => {
+    //   if (error) {
+    //     console.log('Publish error: ', error);
+    //   }
+    // });
+
+    // client.on('connect', () => {
+    //   // console.log('Connected to mqtt server');
+    // });
+
+    // client.on('error', (err) => {
+    //   console.error('MQTT connection error:', err);
+    //   client.end();
+    // });
+
     const intervalId = setInterval(() => {
       fetchData();
     }, 5000);

@@ -77,7 +77,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <div className="h-screen overflow-auto p-10 md:ml-64 bg-gradient-to-b from-green-300 to-white w-full">
+      <div className="h-screen overflow-auto p-10 md:ml-48 bg-gradient-to-b from-green-300 to-white w-full">
         <p className="font-semibold">Dashboard</p>
         <hr className="mb-5 w-24" />
         <div className="md:flex flex-wrap md:justify-between mt-10">

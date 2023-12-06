@@ -10,7 +10,7 @@ const AutoCardGroup = () => {
       <div className="mt-20">
         <p className="text-sm font-semibold">OTOMATIS</p>
         <hr className="mt-1 mb-3 w-20" />
-        <div className="md:flex justify-between gap-5 mt-5">
+        <div className="md:flex flex-wrap justify-center gap-20 mt-5">
           <CardPupuk />
           <CardPompaAir />
           <CardPompaTanaman />

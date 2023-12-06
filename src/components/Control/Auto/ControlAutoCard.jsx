@@ -4,19 +4,19 @@ import Tombol from '../../Tombol';
 const ControlAutoCard = ({ title, onChangeStartTime, onChangeEndTime, onClick, disabled }) => {
   return (
     <>
-      <div className={`flex justify-center p-3 mb-5 border border-black rounded-md md:w-1/5 shadow-md bg-white`}>
+      <div className={`flex justify-center p-3 mb-5 border border-black rounded-md md:w-64 shadow-md bg-white`}>
         <div className="flex flex-col items-center">
           <div className="text-center">
             <p className="text-sm font-medium">{title}</p>
             <hr className="mt-1 mb-3 mx-auto w-16" />
           </div>
           <div className="px-2 py-1 border border-gray-500 rounded-xl bg-green-500">
-            <div className="flex items-center gap-10 justify-between">
-              <p className="ml-0 text-white font-medium">start time</p>
-              <input type="time" className="w-fit my-1 rounded-md p-1 border border-black" onChange={onChangeStartTime} />
+            <div className="flex justify-center gap-10">
+              <p className="ml-0 text-white font-medium text-center">start time</p>
+              <p className="ml-0 text-white font-medium">end time</p>
             </div>
-            <div className="flex items-center gap-10 justify-between">
-              <p className="ml-0 text-white">end time</p>
+            <div className="flex items-center gap-5 justify-between">
+              <input type="time" className="w-fit my-1 rounded-md p-1 border border-black" onChange={onChangeStartTime} />
               <input type="time" className="w-fit my-1 rounded-md p-1 border border-black" onChange={onChangeEndTime} />
             </div>
           </div>
