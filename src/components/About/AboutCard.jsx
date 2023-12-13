@@ -13,7 +13,7 @@ const AboutCard = () => {
   return (
     <>
       <div className="flex flex-col items-center justify-center">
-        <div className="flex flex-wrap justify-center gap-10 w-1/2">
+        <div className="flex flex-wrap justify-center gap-10">
           <MemberCard image={wildan} nama="Mochammad Wildan Alghifari" prodi="Informatika 2020" />
           <MemberCard image={izzan} nama="Izzan Abdul Aziz" prodi="Informatika 2021" />
           <MemberCard image={wine} nama="Wine Nadira Maulana" prodi="Informatika 2021" />
