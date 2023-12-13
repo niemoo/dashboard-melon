@@ -53,6 +53,7 @@ const CardPompaAir = () => {
 
     return () => clearInterval(intervalId);
   });
+
   return (
     <>
       <ControlManualCard title="Pompa Air" disabled={isDisabled} url="http://localhost:8080/controllers/air-masuk/manual/state" />
