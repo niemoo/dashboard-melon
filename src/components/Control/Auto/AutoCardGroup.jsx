@@ -14,8 +14,8 @@ const AutoCardGroup = () => {
           <CardPupuk />
           <CardPompaAir />
           <CardPompaTanaman />
-          <ControlAutoCard title="Ph Up " />
-          <ControlAutoCard title="Ph Down" />
+          {/* <ControlAutoCard title="Ph Up " />
+          <ControlAutoCard title="Ph Down" /> */}
         </div>
       </div>
     </>

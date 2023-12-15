@@ -38,7 +38,7 @@ const Dashboard = () => {
 
       const connect = (url, options) => {
         const client = mqtt.connect(url, options);
-        client.subscribe('sensor/water-level'); // subscribe mqtt server
+        client.subscribe('ultrasonik/sensor/water-level'); // subscribe mqtt server
 
         // Handle connection events
         client.on('connect', () => {
@@ -54,7 +54,7 @@ const Dashboard = () => {
         client.on('message', (topic, message) => {
           // called each time a message is received
           const parsedData = JSON.parse(message.toString());
-          setWaterLevel(parsedData.water_level);
+          setWaterLevel(parsedData.sensor_ultrasonik);
           // console.log('Received message:', topic, parsedData);
         });
       };
@@ -69,7 +69,7 @@ const Dashboard = () => {
         connectTimeout: 30 * 1000,
       });
       fetchData(); // Call the async function
-    }, 5000);
+    }, 1000);
 
     //Clearing the interval
     return () => clearInterval(interval);

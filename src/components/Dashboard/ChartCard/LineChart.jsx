@@ -9,6 +9,7 @@ const LineChart = () => {
   const uniqueTimes = new Set(); // Set to keep track of unique time values
 
   useEffect(() => {
+    console.log('jalan');
     const initialConnectionOptions = {
       protocol: 'wss',
       host: 'b579eab42dbe4d60a49f09a4f513b74d.s1.eu.hivemq.cloud',
@@ -27,7 +28,7 @@ const LineChart = () => {
       connectTimeout: 30 * 1000,
     });
 
-    client.subscribe('sensor/ppm');
+    client.subscribe('tds/sensor/ppm-value');
 
     client.on('connect', () => {
       // console.log('Connected to mqtt server');
@@ -43,9 +44,10 @@ const LineChart = () => {
         const parsedData = JSON.parse(message.toString());
 
         // Check if data with the same time already exists in uniqueTimes Set
-        if (!uniqueTimes.has(parsedData.time)) {
+        if (!uniqueTimes.has(parsedData.time_tds)) {
           // If not, add the time to the Set and update ppmArray
-          uniqueTimes.add(parsedData.time);
+          uniqueTimes.add(parsedData.time_tds);
+          console.log(parsedData);
 
           // Adjust the time by adding 6 hours
           const now = new Date();
@@ -104,7 +106,7 @@ const LineChart = () => {
     datasets: [
       {
         label: 'ppm',
-        data: ppmArray.map((data) => data.ppm_value),
+        data: ppmArray.map((data) => data.sensor_tds),
         fill: false,
         backgroundColor: ['#9FBB73'],
         borderColor: 'black',
