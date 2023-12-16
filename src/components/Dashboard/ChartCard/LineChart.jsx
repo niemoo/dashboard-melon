@@ -11,15 +11,13 @@ const LineChart = () => {
   useEffect(() => {
     console.log('jalan');
     const initialConnectionOptions = {
-      protocol: 'wss',
-      host: 'b579eab42dbe4d60a49f09a4f513b74d.s1.eu.hivemq.cloud',
-      clientId: 'test',
-      port: 8884,
+      mqtthost: 'wss://b579eab42dbe4d60a49f09a4f513b74d.s1.eu.hivemq.cloud:8884/mqtt',
+      clientId: 'asd',
       username: 'bisaa',
       password: 'Yabisadong11',
     };
 
-    const client = mqtt.connect(`${initialConnectionOptions.protocol}://${initialConnectionOptions.host}:${initialConnectionOptions.port}/mqtt`, {
+    const client = mqtt.connect(initialConnectionOptions.mqtthost, {
       clientId: initialConnectionOptions.clientId,
       username: initialConnectionOptions.username,
       password: initialConnectionOptions.password,
@@ -42,6 +40,7 @@ const LineChart = () => {
     const fetchData = () => {
       client.on('message', (topic, message) => {
         const parsedData = JSON.parse(message.toString());
+        console.log(parsedData);
 
         // Check if data with the same time already exists in uniqueTimes Set
         if (!uniqueTimes.has(parsedData.time_tds)) {
@@ -64,15 +63,15 @@ const LineChart = () => {
     // Fetch data initially
     fetchData();
 
-    // Set up interval to fetch data every 5 seconds
-    const interval = setInterval(fetchData, 5000);
+    // // Set up interval to fetch data every 5 seconds
+    // const interval = setInterval(fetchData, 5000);
 
-    // Clear the interval and close the MQTT connection on component unmount
-    return () => {
-      clearInterval(interval);
-      client.end();
-    };
-  }, []); // Empty dependency array ensures that the effect runs only once when the component mounts
+    // // Clear the interval and close the MQTT connection on component unmount
+    // return () => {
+    //   clearInterval(interval);
+    //   client.end();
+    // };
+  }, [ppmArray]); // Empty dependency array ensures that the effect runs only once when the component mounts
 
   const adjustTime = (originalTime) => {
     const arrayWaktu = originalTime.split(':');

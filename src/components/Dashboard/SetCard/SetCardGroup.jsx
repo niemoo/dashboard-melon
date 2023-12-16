@@ -63,7 +63,7 @@ const SetCardGroup = () => {
   return (
     <>
       <div className="md:flex justify-between md:mt-0 mt-5 md:space-x-5 w-full">
-        <SetCard titleCard="Set PPM Harian" titleTombol="SUBMIT" onChange={null} onClick={null} disabled={isLoadingTanam} />
+        <SetCard titleCard="Set PPM Harian" titleTombol="SUBMIT" onChange={null} onClick={null} disabled={null} />
         <SetCard titleCard="Sedang Ditanam" titleTombol="SUBMIT" onChange={handleTanamChange} onClick={handleSubmitTanam} disabled={isLoadingTanam} />
         <SetCard titleCard="Telah Dipanen" titleTombol="SUBMIT" onChange={handlePanenChange} onClick={handleSubmitPanen} disabled={isLoadingPanen} />
         <SetCard titleCard="Proses Semai" titleTombol="SUBMIT" />
