@@ -5,6 +5,7 @@ import axios from 'axios';
 const AlertContainer = () => {
   const [open1, setOpen1] = useState(true);
   const [lastPupukRecord, setLastPupukRecord] = useState();
+  const [isDisabled, setIsDisabled] = useState(false);
   const [endTime, setEndTime] = useState();
 
   const getPupuk = async () => {
@@ -41,16 +42,31 @@ const AlertContainer = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      await getPupuk();
+      checkTime();
+    };
+
+    const intervalId = setInterval(() => {
+      fetchData();
+    }, 5000);
+
+    return () => clearInterval(intervalId);
+  });
+
   return (
     <>
-      <Alert
-        open={open1}
-        onClose={() => setOpen1(false)}
-        // Your other Alert props
-        className=""
-      >
-        Pompa sedang menyala sampai
-      </Alert>
+      {isDisabled && (
+        <Alert
+          open={open1}
+          onClose={() => setOpen1(false)}
+          // Your other Alert props
+          className=""
+        >
+          Control Otomatis sedang menyala sampai {`${lastPupukRecord?.end_time}`}
+        </Alert>
+      )}
     </>
   );
 };

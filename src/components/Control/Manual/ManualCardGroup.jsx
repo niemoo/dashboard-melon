@@ -15,8 +15,8 @@ const ManualCardGroup = () => {
           <CardPupuk />
           <CardPompaAir />
           <CardPompaTanaman />
-          {/* <ControlManualCard title="Ph Up" />
-          <ControlManualCard title="Ph Down" /> */}
+          <ControlManualCard title="Ph Up" />
+          <ControlManualCard title="Ph Down" />
         </div>
         <div className="fixed bottom-0 right-0 p-4 w-fit">
           <AlertContainer />

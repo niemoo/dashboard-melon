@@ -9,7 +9,6 @@ const LineChart = () => {
   const uniqueTimes = new Set(); // Set to keep track of unique time values
 
   useEffect(() => {
-    console.log('jalan');
     const initialConnectionOptions = {
       mqtthost: 'wss://b579eab42dbe4d60a49f09a4f513b74d.s1.eu.hivemq.cloud:8884/mqtt',
       clientId: 'asd',
@@ -40,13 +39,11 @@ const LineChart = () => {
     const fetchData = () => {
       client.on('message', (topic, message) => {
         const parsedData = JSON.parse(message.toString());
-        console.log(parsedData);
 
         // Check if data with the same time already exists in uniqueTimes Set
         if (!uniqueTimes.has(parsedData.time_tds)) {
           // If not, add the time to the Set and update ppmArray
           uniqueTimes.add(parsedData.time_tds);
-          console.log(parsedData);
 
           // Adjust the time by adding 6 hours
           const now = new Date();
@@ -55,7 +52,17 @@ const LineChart = () => {
           // Add adjustedTime to parsedData
           const dataWithAdjustedTime = { ...parsedData, adjustedTime };
 
-          setPPMArray((prevPPMArray) => [...prevPPMArray, dataWithAdjustedTime]);
+          setPPMArray((prevNewPPMArray) => {
+            const adjustedTimeExists = prevNewPPMArray.some((item) => item.adjustedTime === dataWithAdjustedTime.adjustedTime);
+
+            // Filter out items with the same adjustedTime
+            const filteredArray = prevNewPPMArray.filter((item) => item.adjustedTime !== dataWithAdjustedTime.adjustedTime);
+
+            // If adjustedTime doesn't exist, add the new data
+            return adjustedTimeExists ? filteredArray : [...filteredArray, dataWithAdjustedTime];
+          });
+
+          setNew(ppmArray);
         }
       });
     };
