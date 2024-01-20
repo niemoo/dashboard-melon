@@ -61,8 +61,6 @@ const LineChart = () => {
             // If adjustedTime doesn't exist, add the new data
             return adjustedTimeExists ? filteredArray : [...filteredArray, dataWithAdjustedTime];
           });
-
-          setNew(ppmArray);
         }
       });
     };
