@@ -56,7 +56,7 @@ const CardPompaAir = () => {
 
   return (
     <>
-      <ControlManualCard title="Pompa Air" disabled={isDisabled} url="http://localhost:8080/controllers/air-masuk/manual/state" />
+      <ControlManualCard title="Pompa Air" disabled={isDisabled} url="http://localhost:8080/controllers/air-masuk/manual/state" path_subscribe="controller/air-masuk-tandon" />
     </>
   );
 };

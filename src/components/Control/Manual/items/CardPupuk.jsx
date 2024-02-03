@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { React, useState, useEffect } from 'react';
 import ControlManualCard from '../ControlManualCard';
+import mqtt from 'mqtt';
 
 const CardPupuk = () => {
   const [isDisabled, setIsDisabled] = useState(false);
@@ -55,7 +56,7 @@ const CardPupuk = () => {
   });
   return (
     <>
-      <ControlManualCard title="Pompa Pupuk" disabled={isDisabled} url="http://localhost:8080/controllers/pupuk/manual/state" />
+      <ControlManualCard title="Pompa Pupuk" disabled={isDisabled} url="http://localhost:8080/controllers/pupuk/manual/state" path_subscribe="controller/pupuk" />
     </>
   );
 };

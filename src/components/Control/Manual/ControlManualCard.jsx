@@ -1,30 +1,58 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // Import Axios
+import mqtt from 'mqtt';
 
-const ControlManualCard = ({ title, disabled, url }) => {
+const ControlManualCard = ({ title, disabled, url, path_subscribe }) => {
   const [isChecked, setIsChecked] = useState(false);
 
-  // Fungsi untuk menangani perubahan nilai checkbox
-  const handleCheckboxChange = async () => {
-    setIsChecked(!isChecked);
+  const initialConnectionOptions = {
+    protocol: 'wss',
+    host: 'b579eab42dbe4d60a49f09a4f513b74d.s1.eu.hivemq.cloud',
+    clientId: 'test',
+    port: 8884,
+    username: 'bisaa',
+    password: 'Yabisadong11',
+  };
 
-    // If the checkbox is checked, send a post request with the number 1 to the database
-    if (isChecked == false) {
-      try {
-        const res = await axios.post(url, { state: 1 });
-        // Handle the successful response if needed
-      } catch (error) {
-        // Handle the error if needed
-        console.error('Error sending data to the server', error);
-      }
-    } else {
-      try {
-        const res = await axios.post(url, { state: 0 });
-        // Handle the successful response if needed
-      } catch (error) {
-        // Handle the error if needed
-        console.error('Error sending data to the server', error);
-      }
+  const client = mqtt.connect(`${initialConnectionOptions.protocol}://${initialConnectionOptions.host}:${initialConnectionOptions.port}/mqtt`, {
+    clientId: initialConnectionOptions.clientId,
+    username: initialConnectionOptions.username,
+    password: initialConnectionOptions.password,
+    clean: true,
+    reconnectPeriod: 1000,
+    connectTimeout: 30 * 1000,
+  });
+
+  useEffect(() => {
+    client.on('connect', () => {
+      console.log('Connected to MQTT server');
+    });
+
+    client.on('error', (err) => {
+      console.error('MQTT connection error:', err);
+      client.end();
+    });
+  }, [isChecked]);
+
+  const handleCheckboxChange = async () => {
+    setIsChecked((prevState) => !prevState);
+
+    try {
+      const stateValue = isChecked ? 0 : 1;
+      const res = await axios.post(url, { state: stateValue });
+
+      client.publish(path_subscribe, `${stateValue}`, { qos: 1 }, (error) => {
+        if (error) {
+          console.log('Publish error: ', error);
+        } else {
+          console.log('Publish success');
+        }
+      });
+
+      // Handle the successful response if needed
+    } catch (error) {
+      // Handle the error if needed
+      console.error('Error sending data to the server', error);
     }
   };
 
