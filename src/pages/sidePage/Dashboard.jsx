@@ -5,7 +5,6 @@ import axios from 'axios';
 import mqtt from 'mqtt';
 import Card from '../../components/Dashboard/ShowCard/Card';
 import LineChart from '../../components/Dashboard/ChartCard/LineChart';
-import Ph from '../../components/Dashboard/ChartCard/Ph';
 import SetCardGroup from '../../components/Dashboard/SetCard/SetCardGroup';
 
 const Dashboard = () => {

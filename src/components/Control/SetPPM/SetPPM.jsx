@@ -1,26 +1,67 @@
 import { Button } from '@material-tailwind/react';
-import { useState } from 'react';
+import axios from 'axios';
+import mqtt from 'mqtt';
+import { useState, useEffect } from 'react';
 
 const SetPPM = () => {
-  const [value, setValue] = useState();
-  const [day, setDay] = useState(1);
+  const [value, setValue] = useState([]);
+  const [selectedValue, setSelectedValue] = useState(value[0]);
 
-  const onDayChange = (e) => {
-    setDay(e.target.value);
+  const initialConnectionOptions = {
+    protocol: 'wss',
+    host: 'b579eab42dbe4d60a49f09a4f513b74d.s1.eu.hivemq.cloud',
+    clientId: 'test',
+    port: 8884,
+    username: 'bisaa',
+    password: 'Yabisadong11',
   };
 
-  const handleSubmit = async () => {
-    try {
-      // Make the API request using the selected day
-      const response = await fetch(`http://localhost:8080/jadwal/${day}`);
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
+  const client = mqtt.connect(`${initialConnectionOptions.protocol}://${initialConnectionOptions.host}:${initialConnectionOptions.port}/mqtt`, {
+    clientId: initialConnectionOptions.clientId,
+    username: initialConnectionOptions.username,
+    password: initialConnectionOptions.password,
+    clean: true,
+    reconnectPeriod: 1000,
+    connectTimeout: 30 * 1000,
+  });
 
-      const result = await response.json();
-      setValue(result[0].PPM);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/jadwal');
+        setValue(response.data);
+      } catch (error) {
+        console.error('Error:', error.message);
+      }
+    };
+
+    client.on('connect', () => {
+      console.log('Connect for PPM');
+    });
+
+    client.on('error', (err) => {
+      console.error('MQTT connection error:', err);
+      client.end();
+    });
+
+    console.log(selectedValue);
+    fetchData();
+  }, []);
+
+  const handleOnCLick = async () => {
+    try {
+      client.publish('tds/sensor/ppm-value/set-ppm', `${selectedValue}`, { qos: 1 }, (error) => {
+        if (error) {
+          console.log('Publish error: ', error);
+        } else {
+          console.log('Publish PPM success');
+        }
+      });
+
+      // Handle the successful response if needed
     } catch (error) {
-      console.error('Error:', error.message);
+      // Handle the error if needed
+      console.error('Error sending data to the server', error);
     }
   };
 
@@ -31,41 +72,13 @@ const SetPPM = () => {
       </select>
       <div className="flex gap-5 items-center">
         <label>PPM Hari ke - </label>
-        <select className="p-2 rounded-md border border-gray-500" onChange={onDayChange}>
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-          <option>6</option>
-          <option>7</option>
-          <option>8</option>
-          <option>9</option>
-          <option>10</option>
-          <option>11</option>
-          <option>12</option>
-          <option>13</option>
-          <option>14</option>
-          <option>15</option>
-          <option>16</option>
-          <option>17</option>
-          <option>18</option>
-          <option>19</option>
-          <option>20</option>
-          <option>21</option>
-          <option>22</option>
-          <option>23</option>
-          <option>24</option>
-          <option>25</option>
-          <option>26</option>
-          <option>27</option>
-          <option>28</option>
-          <option>29</option>
-          <option>30</option>
-          <option>31</option>
+        <select className="p-2 rounded-md border border-gray-500" onChange={(e) => setSelectedValue(e.target.value)}>
+          {value.map((data) => (
+            <option key={data.id_tanggal}>{`${data.id_tanggal} - ${data.PPM}`}</option>
+          ))}
         </select>
       </div>
-      <Button className="bg-green-500 hover:bg-green-700" onClick={handleSubmit}>
+      <Button className="bg-green-500 hover:bg-green-700" onClick={handleOnCLick}>
         Submit
       </Button>
     </div>
